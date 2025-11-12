@@ -6,7 +6,7 @@ import type { Task } from '../types';
 
 interface HomeScreenProps {
   tasks: Task[];
-  onTaskClick: () => void;
+  onTaskClick: (e: Task) => void;
 }
 
 export default function HomeScreen({ tasks, onTaskClick }: HomeScreenProps) {
@@ -21,7 +21,7 @@ export default function HomeScreen({ tasks, onTaskClick }: HomeScreenProps) {
           <h2 className="section-title">Upcoming Tasks</h2>
           
           {tasks.map(task => (
-            <TaskCard key={task.id} task={task} onClick={onTaskClick} />
+            <TaskCard key={task.id} task={task} onClick={() => onTaskClick(task)} />
           ))}
         </section>
 

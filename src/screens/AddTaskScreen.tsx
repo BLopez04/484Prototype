@@ -1,6 +1,5 @@
 import Header from '../components/Header';
 import { useTaskContext } from "../contexts/TaskContext.tsx";
-import type {Task} from "../types";
 import TaskTitleCard from "../components/TaskTitleCard.tsx";
 import {useState} from "react";
 import TaskDescriptionCard from "../components/TaskDescriptionCard.tsx";
@@ -31,7 +30,7 @@ export function AddTaskScreen() {
     }
 
     const handleSaveTask = () => {
-        addTask({title: taskTitle, type: taskType, steps: [taskDescription], time: taskDueDate });
+        addTask({title: taskTitle, type: taskType, steps: [taskDescription], time: taskDueDate, flag: false });
     }
 
     return (

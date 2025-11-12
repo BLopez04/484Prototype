@@ -1,12 +1,17 @@
 import CloseIcon from '@mui/icons-material/Close';
 import EditIcon from '@mui/icons-material/Edit';
+import type {Task} from "../types";
 
 interface TaskDetailModalProps {
   onClose: () => void;
   onEdit: () => void;
+  task: Task | null;
 }
 
-export default function TaskDetailModal({ onClose, onEdit }: TaskDetailModalProps) {
+export default function TaskDetailModal({ onClose, onEdit, task }: TaskDetailModalProps) {
+    if (task === null) {
+        return <div> TASK IS NULL (TEMPORARY THIS SHOULDNT HAPPEN) </div>
+    }
   return (
     <div className="modal-overlay" onClick={onClose}>
       <div className="modal" onClick={(e) => e.stopPropagation()}>
@@ -19,29 +24,29 @@ export default function TaskDetailModal({ onClose, onEdit }: TaskDetailModalProp
         </div>
         
         <div className="modal-content">
-          <h3 className="task-detail-title">Morning Routine</h3>
+          <h3 className="task-detail-title">{task.title}</h3>
           
           <div className="task-section">
             <h4>Steps:</h4>
             <ol className="steps-list">
-              <li>Wake up at 8am</li>
-              <li>Exercise for 20 mins</li>
-              <li>Healthy breakfast</li>
+                {task.steps.map((step, index) => (
+                    <li key={index}>{step}</li>
+                ))}
             </ol>
           </div>
 
           <div className="task-section">
             <div className="task-detail-row">
               <span className="detail-label">Type:</span>
-              <span>Daily Routine</span>
+              <span>{task.type}</span>
             </div>
             <div className="task-detail-row">
               <span className="detail-label">Due:</span>
-              <span>10:00 AM</span>
+              <span>{task.time}</span>
             </div>
             <div className="task-detail-row">
               <span className="detail-label">Status:</span>
-              <span>In Progress</span>
+              <span>{task.flag ? "Completed" : "In Progress"}</span>
             </div>
           </div>
 

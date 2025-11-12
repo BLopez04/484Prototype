@@ -18,28 +18,32 @@ export function TaskProvider({ children }: { children: ReactNode }) {
             title: 'Morning Routine',
             time: '10:00 AM',
             type: 'Daily Routine',
-            steps: ['Wake up at 8am', 'Exercise for 20 mins', 'Healthy breakfast']
+            steps: ['Wake up at 8am', 'Exercise for 20 mins', 'Healthy breakfast'],
+            flag: false
         },
         {
             id: 2,
             title: 'Walk Dog',
             time: 'Noon',
             type: 'Household',
-            steps: ['Get leash', 'Walk around the block', 'Give treats']
+            steps: ['Get leash', 'Walk around the block', 'Give treats'],
+            flag: true
         },
         {
             id: 3,
             title: 'Calc HW',
             time: 'Midnight',
             type: 'School',
-            steps: ['Review chapter 5', 'Complete problems 1-20', 'Check answers']
+            steps: ['Review chapter 5', 'Complete problems 1-20', 'Check answers'],
+            flag: false
         },
         {
             id: 4,
             title: 'Team Meeting',
             time: '2:00 PM',
             type: 'Work',
-            steps: []
+            steps: [],
+            flag: false
         }
     ]);
 
