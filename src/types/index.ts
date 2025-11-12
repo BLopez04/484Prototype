@@ -6,5 +6,6 @@ export interface Task {
   time: string;
   type: string;
   steps: string[];
+  flag: boolean;
 }
 

@@ -6,7 +6,7 @@ import SettingsScreen from './screens/SettingsScreen';
 import BottomNav from './components/BottomNav';
 import TaskDetailModal from './components/TaskDetailModal';
 import EditTaskModal from './components/EditTaskModal';
-import type { Screen } from './types';
+import type {Screen, Task} from './types';
 import './App.css';
 import { useTaskContext } from "./contexts/TaskContext.tsx";
 
@@ -14,9 +14,11 @@ function App() {
   const [currentScreen, setCurrentScreen] = useState<Screen>('home');
   const [showTaskModal, setShowTaskModal] = useState(false);
   const [showEditModal, setShowEditModal] = useState(false);
+  const [selectedTask, setSelectedTask] = useState<Task | null>(null);
   const { tasks } = useTaskContext();
 
-  const handleTaskClick = () => {
+  const handleTaskClick = (task: Task) => {
+    setSelectedTask(task);
     setShowTaskModal(true);
   };
 
@@ -45,6 +47,7 @@ function App() {
         <TaskDetailModal 
           onClose={() => setShowTaskModal(false)}
           onEdit={handleEditClick}
+          task={selectedTask}
         />
       )}
       {showEditModal && (
