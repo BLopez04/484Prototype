@@ -1,7 +1,7 @@
 export type Screen = 'home' | 'game' | 'add-task' | 'settings';
 
 export interface Task {
-  id: number;
+  id?: number;
   title: string;
   time: string;
   type: string;
