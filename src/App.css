@@ -1,42 +1,522 @@
-#root {
-  max-width: 1280px;
+:root {
+  --primary: #60a5fa;
+  --primary-dark: #3b82f6;
+  --text-primary: #212121;
+  --text-secondary: #757575;
+  --background: #fafafa;
+  --surface: #ffffff;
+  --border: #e0e0e0;
+  --hover: #f5f5f5;
+}
+
+.app {
+  width: 100%;
+  min-height: 100vh;
+  background: var(--background);
+}
+
+.screen {
+  min-height: 100vh;
+  padding-bottom: 80px;
+  background: var(--background);
+}
+
+/* Header */
+.app-header {
+  background: var(--primary);
+  padding: 20px 20px 24px;
+}
+
+.app-title {
+  color: white;
+  font-size: 22px;
+  font-weight: 700;
+  margin: 0;
+  letter-spacing: -0.3px;
+}
+
+/* Content */
+.content {
+  padding: 20px;
+}
+
+/* Welcome Card */
+.welcome-card {
+  background: var(--surface);
+  border-radius: 12px;
+  padding: 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+  border: 1px solid var(--border);
+}
+
+.welcome-text {
+  flex: 1;
+}
+
+.greeting {
+  font-size: 14px;
+  font-weight: 500;
+  margin: 0 0 4px 0;
+  color: var(--text-secondary);
+}
+
+.username {
+  font-size: 26px;
+  font-weight: 700;
+  margin: 0;
+  color: var(--text-primary);
+  letter-spacing: -0.5px;
+}
+
+.user-avatar {
+  width: 48px;
+  height: 48px;
+  background: var(--primary);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Sections */
+.section {
+  margin-bottom: 28px;
+}
+
+.section-title {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin: 0 0 12px 0;
+}
+
+/* Task Card */
+.task-card {
+  background: var(--surface);
+  border-radius: 12px;
+  padding: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border: 1px solid var(--border);
+  transition: background 0.2s ease;
+}
+
+.task-card:active {
+  background: var(--hover);
+}
+
+.task-card-content {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex: 1;
+}
+
+.task-checkbox {
+  width: 20px;
+  height: 20px;
+  border: 2px solid var(--border);
+  border-radius: 4px;
+  cursor: pointer;
+  appearance: none;
+  transition: all 0.2s ease;
+}
+
+.task-checkbox:checked {
+  background: var(--primary);
+  border-color: var(--primary);
+}
+
+.task-info {
+  flex: 1;
+}
+
+.task-title {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin: 0 0 4px 0;
+}
+
+.task-meta {
+  font-size: 13px;
+  color: var(--text-secondary);
+  margin: 0;
+}
+
+.task-menu-btn {
+  background: none;
+  border: none;
+  padding: 4px;
+  cursor: pointer;
+  color: var(--text-secondary);
+  border-radius: 4px;
+  transition: background 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.task-menu-btn:active {
+  background: var(--hover);
+}
+
+/* Progress Card */
+.progress-card {
+  background: var(--surface);
+  border-radius: 12px;
+  padding: 20px;
+  border: 1px solid var(--border);
+}
+
+.progress-info {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.progress-label {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.progress-bar-outer {
+  height: 8px;
+  background: var(--border);
+  border-radius: 100px;
+  overflow: hidden;
+  margin-bottom: 8px;
+}
+
+.progress-bar-inner {
+  height: 100%;
+  background: var(--primary);
+  border-radius: 100px;
+  transition: width 0.3s ease;
+}
+
+.progress-text {
+  font-size: 12px;
+  color: var(--text-secondary);
+  text-align: center;
+  margin: 0;
+}
+
+/* Placeholder Card */
+.placeholder-card {
+  background: var(--surface);
+  border-radius: 12px;
+  padding: 48px 24px;
+  text-align: center;
+  margin-top: 40px;
+  border: 1px solid var(--border);
+}
+
+.placeholder-card h2 {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin: 0 0 8px 0;
+}
+
+.placeholder-card p {
+  font-size: 14px;
+  color: var(--text-secondary);
+  margin: 0;
+  line-height: 1.5;
+}
+
+/* Bottom Navigation */
+.bottom-nav {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  max-width: 430px;
   margin: 0 auto;
-  padding: 2rem;
+  background: var(--surface);
+  border-top: 1px solid var(--border);
+  display: flex;
+  justify-content: space-around;
+  padding: 8px 8px max(8px, env(safe-area-inset-bottom));
+  z-index: 1000;
+}
+
+.nav-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding: 8px 16px;
+  background: none;
+  border: none;
+  color: var(--text-secondary);
+  font-size: 11px;
+  font-weight: 500;
+  cursor: pointer;
+  flex: 1;
+  border-radius: 8px;
+  transition: all 0.2s ease;
+}
+
+.nav-btn svg {
+  font-size: 24px;
+  transition: color 0.2s ease;
+}
+
+.nav-btn.active {
+  color: var(--primary);
+}
+
+.nav-btn.active svg {
+  color: var(--primary);
+}
+
+.nav-btn:active {
+  background: var(--hover);
+}
+
+/* Task Cards - Add spacing */
+.task-card {
+  margin-bottom: 12px;
+  cursor: pointer;
+}
+
+.task-card:last-child {
+  margin-bottom: 0;
+}
+
+/* Modal Overlay */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2000;
+  padding: 20px;
+}
+
+/* Modal */
+.modal {
+  background: var(--surface);
+  border-radius: 12px;
+  width: 100%;
+  max-width: 380px;
+  max-height: 80vh;
+  overflow-y: auto;
+  box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+}
+
+.modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 20px;
+  border-bottom: 1px solid var(--border);
+}
+
+.modal-title {
+  font-size: 18px;
+  font-weight: 700;
+  margin: 0;
+  flex: 1;
   text-align: center;
 }
 
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
+.icon-btn {
+  background: none;
+  border: none;
+  padding: 4px;
+  cursor: pointer;
+  color: var(--text-secondary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 4px;
+  transition: background 0.2s ease;
 }
 
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
+.icon-btn:active {
+  background: var(--hover);
+}
+
+.modal-content {
+  padding: 20px;
+}
+
+.task-detail-title {
+  font-size: 22px;
+  font-weight: 700;
+  margin: 0 0 20px 0;
+  color: var(--text-primary);
+}
+
+.task-section {
+  margin-bottom: 20px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid var(--border);
+}
+
+.task-section:last-child {
+  border-bottom: none;
+  margin-bottom: 0;
+}
+
+.task-section h4 {
+  font-size: 14px;
+  font-weight: 600;
+  margin: 0 0 12px 0;
+  color: var(--text-primary);
+}
+
+.steps-list {
+  padding-left: 20px;
+  margin: 0;
+}
+
+.steps-list li {
+  margin-bottom: 8px;
+  color: var(--text-secondary);
+  line-height: 1.5;
+}
+
+.task-detail-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 8px 0;
+  font-size: 14px;
+}
+
+.detail-label {
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+/* Edit Task Button */
+.edit-task-btn {
+  padding: 8px 16px;
+  background: var(--primary);
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  transition: background 0.2s ease;
+}
+
+.edit-task-btn:hover {
+  background: var(--primary-dark);
+}
+
+.edit-task-btn:active {
+  transform: scale(0.96);
+}
+
+/* Edit Modal */
+.placeholder-box {
+  background: var(--hover);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 60px 20px;
+  text-align: center;
+  margin-bottom: 16px;
+  color: var(--text-secondary);
+}
+
+.generate-btn {
+  width: 100%;
+  padding: 12px;
+  background: var(--hover);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  margin-bottom: 16px;
+  transition: background 0.2s ease;
+}
+
+.generate-btn:active {
+  background: var(--border);
+}
+
+.modal-actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.action-btn {
+  padding: 12px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.action-btn.secondary {
+  background: var(--hover);
+  border: 1px solid var(--border);
+  color: var(--text-primary);
+}
+
+.action-btn.secondary:active {
+  background: var(--border);
+}
+
+/* Game Screen - XP Info */
+.xp-info-text {
+  font-size: 14px;
+  color: var(--text-secondary);
+  margin: 0;
+}
+
+/* Game Screen - Reward Card */
+.reward-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 80px 24px;
+  text-align: center;
+}
+
+.reward-label {
+  font-size: 14px;
+  color: var(--text-secondary);
+  font-weight: 500;
+}
+
+/* Responsive adjustments */
+@media (max-width: 375px) {
+  .welcome-card {
+    padding: 20px;
   }
-  to {
-    transform: rotate(360deg);
+  
+  .username {
+    font-size: 22px;
   }
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
+  
+  .nav-btn {
+    padding: 8px 12px;
+    font-size: 10px;
   }
-}
-
-.card {
-  padding: 2em;
-}
-
-.read-the-docs {
-  color: #888;
+  
+  .modal {
+    max-width: 100%;
+  }
 }
