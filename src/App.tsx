@@ -50,10 +50,11 @@ function App() {
           task={selectedTask}
         />
       )}
-      {showEditModal && (
+      {showEditModal && selectedTask && (
         <EditTaskModal 
           onClose={() => setShowEditModal(false)}
           onBack={handleBackToTask}
+          task={selectedTask}
         />
       )}
 

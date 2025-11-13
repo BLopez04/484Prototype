@@ -1,14 +1,18 @@
 import { useState } from 'react';
 import CloseIcon from '@mui/icons-material/Close';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import type { Task } from '../types';
+import { useTaskContext } from '../contexts/TaskContext';
 
 interface EditTaskModalProps {
   onClose: () => void;
   onBack: () => void;
+  task: Task;
 }
 
-export default function EditTaskModal({ onClose, onBack }: EditTaskModalProps) {
-  const [prompt, setPrompt] = useState('');
+export default function EditTaskModal({ onClose, onBack, task }: EditTaskModalProps) {
+  const { updateTask } = useTaskContext();
+  const [prompt, setPrompt] = useState(task.steps.join('\n') || '');
 
   const handleGenerate = () => {
     const placeholderTexts = [
@@ -21,6 +25,25 @@ export default function EditTaskModal({ onClose, onBack }: EditTaskModalProps) {
 
     const randomText = placeholderTexts[Math.floor(Math.random() * placeholderTexts.length)];
     setPrompt(randomText);
+  };
+
+  const handleSave = () => {
+    // text to steps
+    const steps = prompt.split('\n').filter(line => line.trim() !== '');
+
+    // update task
+    if (task.id !== undefined) {
+      updateTask(task.id, {
+        ...task,
+        steps: steps
+      });
+    }
+
+    onClose();
+  };
+
+  const handleCancel = () => {
+    onClose();
   };
 
   return (
@@ -50,8 +73,8 @@ export default function EditTaskModal({ onClose, onBack }: EditTaskModalProps) {
           </button>
 
           <div className="modal-actions">
-            <button className="action-btn secondary">save</button>
-            <button className="action-btn secondary">cancel</button>
+            <button className="action-btn secondary" onClick={handleSave}>save</button>
+            <button className="action-btn secondary" onClick={handleCancel}>cancel</button>
           </div>
         </div>
       </div>
