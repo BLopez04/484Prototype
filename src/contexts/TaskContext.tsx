@@ -1,5 +1,5 @@
 import type { Task } from "../types"
-import {createContext, type ReactNode, useContext, useState} from "react";
+import { createContext, type ReactNode, useContext, useState } from "react";
 
 interface TaskContextType {
     tasks: Task[];
@@ -48,7 +48,9 @@ export function TaskProvider({ children }: { children: ReactNode }) {
     ]);
 
     const addTask = (task: Task) => {
-        setTasks([...tasks, task]);
+        const maxId = tasks.length > 0 ? Math.max(...tasks.map(t => t.id || 0)) : 0;
+        const newTask = { ...task, id: maxId + 1 };
+        setTasks([...tasks, newTask]);
     };
 
     const updateTask = (id: number, updatedTask: Task) => {
