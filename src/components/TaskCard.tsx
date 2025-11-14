@@ -5,14 +5,16 @@ import {useState} from "react";
 interface TaskCardProps {
   task: Task;
   onClick: () => void;
+  onToggle: (checked: boolean, xp: number) => void;
 }
 
-export default function TaskCard({ task, onClick }: TaskCardProps) {
+export default function TaskCard({ task, onClick, onToggle }: TaskCardProps) {
     const [currentTaskFlagState, setCurrentTaskFlagState] = useState<boolean>(task.flag);
 
     const handleTaskChecking = (task: Task) => {
         task.flag = !task.flag;
         setCurrentTaskFlagState(task.flag);
+        onToggle(task.flag, task.xp);
     }
   return (
     <div className="task-card" onClick={onClick}>

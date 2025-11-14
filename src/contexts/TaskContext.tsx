@@ -19,7 +19,8 @@ export function TaskProvider({ children }: { children: ReactNode }) {
             time: '10:00 AM',
             type: 'Daily Routine',
             steps: ['Wake up at 8am', 'Exercise for 20 mins', 'Healthy breakfast'],
-            flag: false
+            flag: false,
+            xp: 100
         },
         {
             id: 2,
@@ -27,7 +28,8 @@ export function TaskProvider({ children }: { children: ReactNode }) {
             time: 'Noon',
             type: 'Household',
             steps: ['Get leash', 'Walk around the block', 'Give treats'],
-            flag: true
+            flag: true,
+            xp: 50
         },
         {
             id: 3,
@@ -35,7 +37,8 @@ export function TaskProvider({ children }: { children: ReactNode }) {
             time: 'Midnight',
             type: 'School',
             steps: ['Review chapter 5', 'Complete problems 1-20', 'Check answers'],
-            flag: false
+            flag: false,
+            xp: 500
         },
         {
             id: 4,
@@ -43,12 +46,14 @@ export function TaskProvider({ children }: { children: ReactNode }) {
             time: '2:00 PM',
             type: 'Work',
             steps: [],
-            flag: false
+            flag: false,
+            xp: 100
         }
     ]);
 
     const addTask = (task: Task) => {
         const maxId = tasks.length > 0 ? Math.max(...tasks.map(t => t.id || 0)) : 0;
+
         const newTask = { ...task, id: maxId + 1 };
         setTasks([...tasks, newTask]);
     };

@@ -5,6 +5,7 @@ import {useState} from "react";
 import TaskDescriptionCard from "../components/TaskDescriptionCard.tsx";
 import TaskTypeCard from "../components/TaskTypeCard.tsx";
 import TaskDueDateCard from "../components/TaskDueDateCard.tsx";
+import TaskXPCard from "../components/TaskXPCard.tsx";
 
 export function AddTaskScreen() {
     const { addTask } = useTaskContext();
@@ -12,6 +13,7 @@ export function AddTaskScreen() {
     const [taskType, setTaskType] = useState<string>("")
     const [taskDescription, setTaskDescription] = useState<string>("");
     const [taskDueDate, setTaskDueDate] = useState<string>("");
+    const [taskXP, setTaskXP] = useState<number>(50);
 
     const handleTitleChange = (value: string) => {
         setTaskTitle(value)
@@ -30,7 +32,7 @@ export function AddTaskScreen() {
     }
 
     const handleSaveTask = () => {
-        addTask({title: taskTitle, type: taskType, steps: [taskDescription], time: taskDueDate, flag: false });
+        addTask({title: taskTitle, type: taskType, steps: [taskDescription], time: taskDueDate, flag: false, xp: taskXP });
     }
 
     return (
@@ -44,16 +46,20 @@ export function AddTaskScreen() {
                     <TaskTypeCard type={taskType} onChangeType={handleTypeChange}/>
                 </div>
                 <div className="section">
-                    <TaskDescriptionCard desc={taskDescription} onChangeDescription={handleDescriptionChange} />
+                    <TaskDescriptionCard desc={taskDescription} onChangeDescription={handleDescriptionChange}/>
                 </div>
                 <div className="section">
                     <TaskDueDateCard date={taskDueDate} onChangeDueDate={handleDueDateChange}/>
+                </div>
+                <div className="section">
+                    <TaskXPCard xp={taskXP} onChangeXP={setTaskXP}/>
                 </div>
                 <div className="button-task-container">
                     <button onClick={handleSaveTask}>
                         Create Task
                     </button>
                 </div>
+
             </div>
         </div>
     )

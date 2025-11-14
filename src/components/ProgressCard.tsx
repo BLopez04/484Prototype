@@ -1,18 +1,16 @@
 interface ProgressCardProps {
   currentLevel: number;
-  nextLevel: number;
   currentXP: number;
   maxXP: number;
 }
 
 export default function ProgressCard({ 
-  currentLevel, 
-  nextLevel, 
+  currentLevel,
   currentXP, 
   maxXP 
 }: ProgressCardProps) {
   const progressPercentage = (currentXP / maxXP) * 100;
-
+  const nextLevel = currentLevel + 1;
   return (
     <div className="progress-card">
       <div className="progress-info">

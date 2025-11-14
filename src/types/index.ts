@@ -7,5 +7,6 @@ export interface Task {
   type: string;
   steps: string[];
   flag: boolean;
+  xp: number;
 }
 

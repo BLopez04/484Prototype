@@ -14,6 +14,9 @@ function App() {
   const [currentScreen, setCurrentScreen] = useState<Screen>('home');
   const [showTaskModal, setShowTaskModal] = useState(false);
   const [showEditModal, setShowEditModal] = useState(false);
+  const [currentXP, setCurrentXP] = useState(650);
+  const [currentMaxXP] = useState(1000);
+  const [currentLevel, setCurrentLevel] = useState(4);
   const [selectedTask, setSelectedTask] = useState<Task | null>(null);
   const { tasks } = useTaskContext();
 
@@ -32,13 +35,49 @@ function App() {
     setShowTaskModal(true);
   };
 
+  const changeXP = (amount: number) => {
+    setCurrentXP(prevXP => {
+      let nextXP = prevXP + amount;
+      let nextLevel = currentLevel;
+
+      // go up levels
+      if (nextXP >= currentMaxXP) {
+        nextLevel += Math.floor(nextXP / currentMaxXP);
+        nextXP = nextXP % currentMaxXP;
+        setCurrentLevel(nextLevel)
+        return nextXP;
+      }
+
+      // go down levels (only down to lvl 1 0 xp)
+      if (nextXP < 0) {
+        while (nextXP < 0 && nextLevel > 1) {
+          nextLevel -= 1;
+          nextXP += currentMaxXP;
+        }
+        setCurrentLevel(nextLevel)
+        return Math.max(nextXP, 0);
+      }
+
+      // simple XP change
+      return nextXP;
+    })
+  }
+
   return (
     <div className="app">
       {/* Screens */}
       {currentScreen === 'home' && (
-        <HomeScreen tasks={tasks} onTaskClick={handleTaskClick} />
+        <HomeScreen tasks={tasks} onTaskClick={handleTaskClick}
+        onTaskToggle ={(checked, xp) => changeXP(checked? +xp: -xp)}
+                    currentLevel={currentLevel} currentXP={currentXP}
+                    currentMaxXP={currentMaxXP}/>
       )}
-      {currentScreen === 'game' && <GameScreen />}
+      {currentScreen === 'game' &&
+          <GameScreen
+          currentLevel={currentLevel}
+          currentXP={currentXP}
+          currentMaxXP={currentMaxXP}
+      />}
       {currentScreen === 'add-task' && <AddTaskScreen />}
       {currentScreen === 'settings' && <SettingsScreen />}
 

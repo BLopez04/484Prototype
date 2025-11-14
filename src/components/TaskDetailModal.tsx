@@ -45,12 +45,16 @@ export default function TaskDetailModal({ onClose, onEdit, task }: TaskDetailMod
               <span>{task.time}</span>
             </div>
             <div className="task-detail-row">
+              <span className="detail-label">XP:</span>
+              <span>{task.xp}</span>
+            </div>
+            <div className="task-detail-row">
               <span className="detail-label">Status:</span>
               <span>{task.flag ? "Completed" : "In Progress"}</span>
             </div>
           </div>
 
-          <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: '16px' }}>
+          <div style={{display: 'flex', justifyContent: 'flex-end', marginTop: '16px'}}>
             <button className="edit-task-btn" onClick={onEdit}>
               <EditIcon sx={{ fontSize: 18 }} />
               Edit

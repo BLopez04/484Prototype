@@ -1,7 +1,13 @@
 import Header from '../components/Header';
 import ProgressCard from '../components/ProgressCard';
 
-export default function GameScreen() {
+interface GameScreenProps {
+  currentLevel: number;
+  currentXP: number;
+  currentMaxXP: number;
+}
+
+export default function GameScreen({ currentLevel, currentXP, currentMaxXP }: GameScreenProps) {
   return (
     <div className="screen">
       <Header title="Progress & Rewards" />
@@ -10,11 +16,10 @@ export default function GameScreen() {
         {/* Progress Section */}
         <section className="section">
           <h2 className="section-title">View your progress:</h2>
-          <ProgressCard 
-            currentLevel={4}
-            nextLevel={5}
-            currentXP={650}
-            maxXP={1000}
+          <ProgressCard
+              currentLevel={currentLevel}
+              currentXP={currentXP}
+              maxXP={currentMaxXP}
           />
         </section>
 
