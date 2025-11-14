@@ -5,7 +5,7 @@
 
 # team contribution
 * Rianna: navigation and routes, home page, modal cards, game page-ish, overall CSS, updated vite and node
-* Bernardo: 
+* Bernardo: repo setup & basic vite skeleton, task xp + functionality
 * Ian:
 * Nathan: 
 * Elyssa: 
