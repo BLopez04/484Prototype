@@ -11,11 +11,16 @@ export function ToastProvider({ children }: { children: ReactNode }) {
     const [open, setOpen] = useState(false);
     const [message, setMessage] = useState("");
     const [severity, setSeverity] = useState<AlertColor>("success");
+    const [toastKey, setToastKey] = useState(0);
 
     const showToast = (msg: string, sev: AlertColor = "success") => {
-        setMessage(msg);
-        setSeverity(sev);
-        setOpen(true);
+        setOpen(false); // Close any existing toast first
+        setTimeout(() => {
+            setMessage(msg);
+            setSeverity(sev);
+            setToastKey(prev => prev + 1); // Increment key to force new toast
+            setOpen(true);
+        }, 0);
     };
 
     const handleClose = () => {
@@ -25,12 +30,13 @@ export function ToastProvider({ children }: { children: ReactNode }) {
     return (
         <ToastContext.Provider value={{ showToast }}>
             {children}
-            <Snackbar
-                open={open}
-                autoHideDuration={3000}
+            <Snackbar 
+                key={toastKey}
+                open={open} 
+                autoHideDuration={3000} 
                 onClose={handleClose}
                 anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
-                sx={{
+                sx={{ 
                     top: '20px !important',
                     maxWidth: '390px',
                     left: '50%',
