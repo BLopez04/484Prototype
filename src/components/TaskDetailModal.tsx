@@ -12,6 +12,46 @@ export default function TaskDetailModal({ onClose, onEdit, task }: TaskDetailMod
     if (task === null) {
         return <div> TASK IS NULL (TEMPORARY THIS SHOULDNT HAPPEN) </div>
     }
+
+    // Format date to be more user-friendly
+    const formatDate = (dateStr: string): string => {
+        if (!dateStr) return 'No due date';
+        
+        try {
+            const date = new Date(dateStr);
+            if (isNaN(date.getTime())) {
+                return dateStr; // Return original if invalid
+            }
+
+            const today = new Date();
+            today.setHours(0, 0, 0, 0);
+            const taskDate = new Date(date);
+            taskDate.setHours(0, 0, 0, 0);
+            
+            const diffTime = taskDate.getTime() - today.getTime();
+            const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+
+            // Build formatted string
+            const formattedDate = date.toLocaleDateString('en-US', { 
+                weekday: 'short',
+                month: 'short', 
+                day: 'numeric',
+                year: 'numeric'
+            });
+
+            // Add relative info
+            if (diffDays === 0) return `${formattedDate} (Today)`;
+            if (diffDays === 1) return `${formattedDate} (Tomorrow)`;
+            if (diffDays === -1) return `${formattedDate} (Yesterday)`;
+            if (diffDays < 0) return `${formattedDate} (${Math.abs(diffDays)} days overdue)`;
+            if (diffDays <= 7) return `${formattedDate} (In ${diffDays} days)`;
+
+            return formattedDate;
+        } catch {
+            return dateStr; // Return original if error occurs
+        }
+    }
+
   return (
     <div className="modal-overlay" onClick={onClose}>
       <div className="modal" onClick={(e) => e.stopPropagation()}>
@@ -42,7 +82,7 @@ export default function TaskDetailModal({ onClose, onEdit, task }: TaskDetailMod
             </div>
             <div className="task-detail-row">
               <span className="detail-label">Due:</span>
-              <span>{task.time}</span>
+              <span>{formatDate(task.time)}</span>
             </div>
             <div className="task-detail-row">
               <span className="detail-label">XP:</span>
