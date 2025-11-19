@@ -1,7 +1,7 @@
 import Header from '../components/Header';
 import { useTaskContext } from "../contexts/TaskContext.tsx";
 import TaskTitleCard from "../components/TaskTitleCard.tsx";
-import {useState} from "react";
+import { useState, useEffect, useRef } from "react";
 import TaskDescriptionCard from "../components/TaskDescriptionCard.tsx";
 import TaskTypeCard from "../components/TaskTypeCard.tsx";
 import TaskDueDateCard from "../components/TaskDueDateCard.tsx";
@@ -17,6 +17,9 @@ export function AddTaskScreen() {
     const [dateError, setDateError] = useState<string>("");
     const [titleError, setTitleError] = useState<string>("");
     const [typeError, setTypeError] = useState<string>("");
+    const [message, setMessage] = useState<string>("");
+    const [messageType, setMessageType] = useState<'success' | 'error' | ''>('');
+    const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
     const handleTitleChange = (value: string) => {
         setTaskTitle(value);
@@ -44,6 +47,21 @@ export function AddTaskScreen() {
         if (dateError) {
             setDateError("");
         }
+    }
+
+    const showMessage = (text: string, type: 'success' | 'error', duration = 3500) => {
+        // clear previous timer
+        if (timeoutRef.current) {
+            clearTimeout(timeoutRef.current);
+            timeoutRef.current = null;
+        }
+        setMessage(text);
+        setMessageType(type);
+        timeoutRef.current = setTimeout(() => {
+            setMessage("");
+            setMessageType('');
+            timeoutRef.current = null;
+        }, duration);
     }
 
     const validateTitle = (title: string): boolean => {
@@ -136,11 +154,48 @@ export function AddTaskScreen() {
 
         // Only save if all validations pass
         if (!isTitleValid || !isTypeValid || !isDateValid) {
+            showMessage('Please fix the highlighted errors before creating the task.', 'error');
             return;
         }
 
-        addTask({title: taskTitle, type: taskType, steps: [taskDescription], time: taskDueDate, flag: false, xp: taskXP });
+        try {
+            const resultAny: any = addTask({ title: taskTitle, type: taskType, steps: [taskDescription], time: taskDueDate, flag: false, xp: taskXP });
+            // handle async addTask if it returns a promise
+            if (resultAny && typeof resultAny.then === 'function') {
+                resultAny
+                    .then(() => {
+                        showMessage('Task created successfully', 'success');
+                        // reset fields
+                        setTaskTitle('');
+                        setTaskType('');
+                        setTaskDescription('');
+                        setTaskDueDate('');
+                        setTaskXP(50);
+                    })
+                    .catch(() => {
+                        showMessage('Failed to create task', 'error');
+                    });
+            } else {
+                // synchronous success
+                showMessage('Task created successfully', 'success');
+                setTaskTitle('');
+                setTaskType('');
+                setTaskDescription('');
+                setTaskDueDate('');
+                setTaskXP(50);
+            }
+        } catch (e) {
+            showMessage('Failed to create task', 'error');
+        }
     }
+
+    useEffect(() => {
+        return () => {
+            if (timeoutRef.current) {
+                clearTimeout(timeoutRef.current);
+            }
+        }
+    }, []);
 
     return (
         <div className="screen">
@@ -166,6 +221,13 @@ export function AddTaskScreen() {
                         Create Task
                     </button>
                 </div>
+
+                {/* transient message shown at the bottom */}
+                {message && (
+                    <div className={`task-message ${messageType}`} role="status" aria-live="polite">
+                        {message}
+                    </div>
+                )}
 
             </div>
         </div>

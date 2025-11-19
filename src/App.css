@@ -666,3 +666,31 @@
     max-width: 100%;
   }
 }
+
+/* Transient task creation message (bottom) */
+.task-message {
+  position: fixed;
+  left: 12px;
+  right: 12px;
+  max-width: 400px;
+  margin: 0 auto;
+  bottom: 150px; 
+  padding: 12px 16px;
+  border-radius: 10px;
+  text-align: center;
+  font-weight: 600;
+  z-index: 1500;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.12);
+}
+
+.task-message.success {
+  background: #ecfdf5;
+  color: #065f46;
+  border: 1px solid rgba(6,95,70,0.08);
+}
+
+.task-message.error {
+  background: #fff1f2;
+  color: #991b1b;
+  border: 1px solid rgba(153,27,27,0.08);
+}
