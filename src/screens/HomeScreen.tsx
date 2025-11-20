@@ -24,10 +24,16 @@ export default function HomeScreen({ tasks, onTaskClick, onTaskToggle, currentLe
         <section className="section">
           <h2 className="section-title">Upcoming Tasks</h2>
           
-          {tasks.map(task => (
-            <TaskCard key={task.id} task={task} onClick={() => onTaskClick(task)}
-            onToggle={(checked, xp) => onTaskToggle(checked, xp)}/>
-          ))}
+          {tasks.length > 0 ? (
+            tasks.map(task => (
+              <TaskCard key={task.id} task={task} onClick={() => onTaskClick(task)}
+              onToggle={(checked, xp) => onTaskToggle(checked, xp)}/>
+            ))
+          ) : (
+            <div className="empty-state">
+              <p>No tasks yet</p>
+            </div>
+          )}
         </section>
 
         <section className="section">

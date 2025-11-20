@@ -1,14 +1,16 @@
 import CloseIcon from '@mui/icons-material/Close';
 import EditIcon from '@mui/icons-material/Edit';
+import DeleteIcon from '@mui/icons-material/Delete';
 import type {Task} from "../types";
 
 interface TaskDetailModalProps {
   onClose: () => void;
   onEdit: () => void;
+  onDelete: (taskId: number) => void;
   task: Task | null;
 }
 
-export default function TaskDetailModal({ onClose, onEdit, task }: TaskDetailModalProps) {
+export default function TaskDetailModal({ onClose, onEdit, onDelete, task }: TaskDetailModalProps) {
     if (task === null) {
         return <div> TASK IS NULL (TEMPORARY THIS SHOULDNT HAPPEN) </div>
     }
@@ -94,7 +96,15 @@ export default function TaskDetailModal({ onClose, onEdit, task }: TaskDetailMod
             </div>
           </div>
 
-          <div style={{display: 'flex', justifyContent: 'flex-end', marginTop: '16px'}}>
+          <div style={{display: 'flex', justifyContent: 'space-between', marginTop: '16px'}}>
+            <button 
+              className="delete-task-btn" 
+              onClick={() => task.id !== undefined && onDelete(task.id)}
+              style={{color: '#dc3545'}}
+            >
+              <DeleteIcon sx={{ fontSize: 18 }} />
+              Delete
+            </button>
             <button className="edit-task-btn" onClick={onEdit}>
               <EditIcon sx={{ fontSize: 18 }} />
               Edit

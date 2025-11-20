@@ -18,7 +18,7 @@ function App() {
   const [currentMaxXP] = useState(1000);
   const [currentLevel, setCurrentLevel] = useState(4);
   const [selectedTask, setSelectedTask] = useState<Task | null>(null);
-  const { tasks } = useTaskContext();
+  const { tasks, deleteTask } = useTaskContext();
 
   const handleTaskClick = (task: Task) => {
     setSelectedTask(task);
@@ -33,6 +33,12 @@ function App() {
   const handleBackToTask = () => {
     setShowEditModal(false);
     setShowTaskModal(true);
+  };
+
+  const handleDeleteTask = (taskId: number) => {
+    deleteTask(taskId);
+    setShowTaskModal(false);
+    setSelectedTask(null);
   };
 
   const changeXP = (amount: number) => {
@@ -86,6 +92,7 @@ function App() {
         <TaskDetailModal 
           onClose={() => setShowTaskModal(false)}
           onEdit={handleEditClick}
+          onDelete={handleDeleteTask}
           task={selectedTask}
         />
       )}
