@@ -9,6 +9,7 @@ import EditTaskModal from './components/EditTaskModal';
 import type {Screen, Task} from './types';
 import './App.css';
 import { useTaskContext } from "./contexts/TaskContext.tsx";
+import { useToast } from "./contexts/ToastContext.tsx";
 
 function App() {
   const [currentScreen, setCurrentScreen] = useState<Screen>('home');
@@ -19,6 +20,7 @@ function App() {
   const [currentLevel, setCurrentLevel] = useState(4);
   const [selectedTask, setSelectedTask] = useState<Task | null>(null);
   const { tasks, deleteTask } = useTaskContext();
+  const { showToast } = useToast();
 
   const handleTaskClick = (task: Task) => {
     setSelectedTask(task);
@@ -74,7 +76,14 @@ function App() {
       {/* Screens */}
       {currentScreen === 'home' && (
         <HomeScreen tasks={tasks} onTaskClick={handleTaskClick}
-        onTaskToggle ={(checked, xp) => changeXP(checked? +xp: -xp)}
+        onTaskToggle ={(checked, xp) => {
+          changeXP(checked? +xp: -xp);
+          if (checked) {
+            showToast(`+${xp} XP gained!`, "success");
+          } else {
+            showToast(`-${xp} XP lost!`, "warning");
+          }
+        }}
                     currentLevel={currentLevel} currentXP={currentXP}
                     currentMaxXP={currentMaxXP}/>
       )}

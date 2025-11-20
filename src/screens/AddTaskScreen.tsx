@@ -1,5 +1,6 @@
 import Header from '../components/Header';
 import { useTaskContext } from "../contexts/TaskContext.tsx";
+import { useToast } from "../contexts/ToastContext.tsx";
 import TaskTitleCard from "../components/TaskTitleCard.tsx";
 import { useState, useEffect, useRef } from "react";
 import TaskDescriptionCard from "../components/TaskDescriptionCard.tsx";
@@ -9,6 +10,7 @@ import TaskXPCard from "../components/TaskXPCard.tsx";
 
 export function AddTaskScreen() {
     const { addTask } = useTaskContext();
+    const { showToast } = useToast();
     const [taskTitle, setTaskTitle] = useState<string>("");
     const [taskType, setTaskType] = useState<string>("")
     const [taskDescription, setTaskDescription] = useState<string>("");
