@@ -23,6 +23,17 @@ export function AddTaskScreen() {
     const [messageType, setMessageType] = useState<'success' | 'error' | ''>('');
     const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
+    // NEW: parent-controlled custom-type flag + presets
+    const [isCustomType, setIsCustomType] = useState<boolean>(false);
+
+    const predefinedTypes = [
+        "Chore",
+        "School",
+        "Work",
+        "Exercise",
+        "Personal"
+    ];
+
     const handleTitleChange = (value: string) => {
         setTaskTitle(value);
         // Clear error when user types
@@ -35,12 +46,28 @@ export function AddTaskScreen() {
         setTaskDescription(value)
     }
 
+    // UPDATED: robust handler that keeps custom mode active while typing
     const handleTypeChange = (value: string) => {
-        setTaskType(value);
-        // Clear error when user types
-        if (typeError) {
-            setTypeError("");
+        // Selecting "Other" from the dropdown should enable custom mode
+        if (value === "__custom") {
+            setIsCustomType(true);
+            setTaskType(""); // start with empty custom value
+            if (typeError) setTypeError("");
+            return;
         }
+
+        // If we're already in custom mode, treat incoming values as typed characters
+        // and STAY in custom mode (do not flip back to dropdown).
+        if (isCustomType) {
+            setTaskType(value);
+            if (typeError) setTypeError("");
+            return;
+        }
+
+        // Normal flow: user picked a preset from the dropdown
+        setIsCustomType(false);
+        setTaskType(value);
+        if (typeError) setTypeError("");
     }
 
     const handleDueDateChange = (value: string) => {
@@ -173,6 +200,7 @@ export function AddTaskScreen() {
                         setTaskDescription('');
                         setTaskDueDate('');
                         setTaskXP(50);
+                        setIsCustomType(false); // NEW: reset type mode
                     })
                     .catch(() => {
                         showMessage('Failed to create task', 'error');
@@ -185,6 +213,7 @@ export function AddTaskScreen() {
                 setTaskDescription('');
                 setTaskDueDate('');
                 setTaskXP(50);
+                setIsCustomType(false); // NEW: reset type mode
             }
         } catch (e) {
             showMessage('Failed to create task', 'error');
@@ -207,7 +236,14 @@ export function AddTaskScreen() {
                     <TaskTitleCard title={taskTitle} onChangeTitle={handleTitleChange} error={titleError}/>
                 </div>
                 <div className="section">
-                    <TaskTypeCard type={taskType} onChangeType={handleTypeChange} error={typeError}/>
+                    <TaskTypeCard
+                        type={taskType}
+                        onChangeType={handleTypeChange}
+                        error={typeError}
+                        predefinedTypes={predefinedTypes}
+                        isCustomType={isCustomType}
+                        onChangeCustomFlag={setIsCustomType}
+                    />
                 </div>
                 <div className="section">
                     <TaskDescriptionCard desc={taskDescription} onChangeDescription={handleDescriptionChange}/>
@@ -235,4 +271,3 @@ export function AddTaskScreen() {
         </div>
     )
 }
-
